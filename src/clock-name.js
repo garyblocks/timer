@@ -22,9 +22,9 @@ class ClockName extends React.Component {
         document.removeEventListener('mousedown', this.handleClick, false);
     }
 
-    handleDoubleClick() {
+    enableEdit() {
         this.setState({
-            edit: !this.state.edit
+            edit: true
         });
     }
 
@@ -47,7 +47,6 @@ class ClockName extends React.Component {
         return (
             <Col
                 className="clock_label"
-                onDoubleClick={() => this.handleDoubleClick()}
                 ref={node => this.node = node}
             >
                 {
@@ -56,7 +55,9 @@ class ClockName extends React.Component {
                         type="text"
                         value={this.state.name}
                         onChange={this.handleChange}
-                    /> : <span>{this.state.name}</span>
+                    /> : <span 
+                        onClick={() => this.enableEdit()}
+                    >{this.state.name}</span>
                 }
             </Col>
         );

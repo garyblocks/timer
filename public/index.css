@@ -74,9 +74,8 @@ body {
 
 .overlay {
     animation-delay: 1s;
-    animation-duration: 2s;
+    animation-duration: 1s;
     position: absolute;
-    display: none;
     width: 95%;
     height: 60%;
     z-index: 2;
