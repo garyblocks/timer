@@ -73,8 +73,8 @@ body {
 }
 
 .overlay {
-    animation-delay: 1s;
-    animation-duration: 1s;
+    /* animation-delay: 1s; */
+    /* animation-duration: 1s; */
     position: absolute;
     width: 95%;
     height: 60%;
@@ -83,14 +83,22 @@ body {
 }
 
 .overlay-text {
-    position: absolute;
-    top: 50%;
+    top: 15%;
     left: 50%;
     font-size: 20px;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
 }
 
+@-webkit-keyframes fade-out {
+100% {-webkit-transform: scale(2); opacity: 0;}
+}
+.fade-out {
+    -webkit-animation: fade-out 0.8s ease-in;
+    -webkit-animation-fill-mode: forwards;
+    opacity: 1;
+    -webkit-animation-delay: 0.1s;
+}
+
+/* for numerous input field to not show spin btn*/
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;

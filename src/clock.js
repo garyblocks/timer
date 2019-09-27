@@ -106,15 +106,15 @@ class Clock extends React.Component {
     renderOverlay() {
         let icon;
         if (this.state.restart) {
-            icon = <span className="glyphicon glyphicon-repeat overlay-text"></span>
+            icon = <span className="glyphicon glyphicon-repeat overlay-text fade-out"></span>
         } else if (this.state.is_paused) {
-            icon = <span className="glyphicon glyphicon-pause overlay-text"></span>
+            icon = <span className="glyphicon glyphicon-pause overlay-text fade-out"></span>
         } else {
-            icon = <span className="glyphicon glyphicon-play overlay-text"></span>
+            icon = <span className="glyphicon glyphicon-play overlay-text fade-out"></span>
         }
         return (
             <div
-                className="overlay animated fadeOut"
+                className="overlay"
                 onClick={() => this.handleClick()}
                 key={this.state.overlay_key}
             >{icon}</div>
