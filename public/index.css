@@ -31,9 +31,9 @@ body {
 }
 
 .create_btn {
+    display: inline-block;
     font-size: 20px;
     margin-top: 8px;
-    margin-left: 30px;
 }
 
 .option:hover {
@@ -57,7 +57,7 @@ body {
 }
 
 .word {
-    margin: 10px;
+    text-align: center;
 }
 
 .input_new_total {

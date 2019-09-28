@@ -95,12 +95,14 @@ class Clock extends React.Component {
         const total_secs = 60 * n;
         this.setState({
             is_paused: false,
+            is_done: false,
             total_mins: n,
             passed_secs: 0,
             total_secs: total_secs,
             percentage: 0
         });
         this.init_state = this.state;
+        this.restart();
     }
 
     renderOverlay() {

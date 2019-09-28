@@ -19,20 +19,20 @@ class CreateNew extends React.Component {
     render() {
         return (
             <Row>
-                <Col xs={4}></Col>
+                <Col xs={4} md={4}></Col>
                 <Col>
                     <Row>
-                    <Col xs={0.5} className="word">
+                    <Col xs={12} md={3} className="word align-self-center">
                         <Button className="create_btn text_center" 
                             onClick={() => this.props.onClick(this.state.value)}
                             variant="info"
                         >Create
                         </Button>
                     </Col>
-                    <Col xs={0.5} className="word">
+                    <Col xs={12} md={1} className="word align-self-center">
                         <p className="create_text">a</p>
                     </Col>
-                    <Col xs={0.5} className="word">
+                    <Col xs={12} md={2} className="word align-self-center">
                         <input
                             className="input_text input_mins"
                             type="number"
@@ -40,12 +40,12 @@ class CreateNew extends React.Component {
                             onChange={this.handleChange}
                         />
                     </Col>
-                    <Col xs={0.5} className="word">
+                    <Col xs={12} md={4} className="word align-self-center">
                         <p className="create_text">mins timer</p>
                     </Col>
                     </Row>
                 </Col>
-                <Col xs={4}></Col>
+                <Col xs={4} md={4}></Col>
             </Row>
         );
     }
