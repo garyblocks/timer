@@ -42,9 +42,8 @@ class CountDown extends React.Component {
     } 
 
     handleChange(event) {
-        const new_total = event.target.value;
         this.setState({
-            total: new_total
+            total: event.target.value
         });
     }
 
@@ -60,7 +59,10 @@ class CountDown extends React.Component {
     }
 
     renderTime() {
-        const total_secs_left = Math.max(this.props.total_secs_left, 0);
+        var total_secs_left = 0;
+        if (!isNaN(this.props.total_secs_left)) {
+            total_secs_left = Math.max(this.props.total_secs_left, 0);
+        }
         const hours = Math.floor(total_secs_left / 3600).toString().padStart(2, '0');
         const minutes = Math.floor((total_secs_left % 3600) / 60).toString().padStart(2, '0');
         const seconds = Math.round(total_secs_left % 60).toString().padStart(2, '0');

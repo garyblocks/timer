@@ -13,7 +13,8 @@ class CreateNew extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({value: event.target.value});
+        const total_mins = event.target.value;
+        this.setState({value: total_mins});
     }
 
     render() {
