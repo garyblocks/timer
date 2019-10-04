@@ -3,6 +3,7 @@ import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'; 
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import Sound from 'react-sound';
 
 import ClockName from './clock-name';
 import CountDown from './count-down';
@@ -21,7 +22,8 @@ class Clock extends React.Component {
             total_secs: total_secs,
             prev_time: Date.now(),
             percentage: 0,
-            overlay_key: 0
+            overlay_key: 0,
+            sound_status: Sound.status.STOPPED,
         };
         this.init_state = this.state;
     }
@@ -43,7 +45,7 @@ class Clock extends React.Component {
             passed_secs = 0;
             is_paused = !is_paused;
             is_done = !is_done;
-            this.props.playSound();
+            this.playSound();
         }
         this.setState({
             passed_secs: passed_secs,
@@ -89,6 +91,18 @@ class Clock extends React.Component {
                 overlay_key: this.state.overlay_key + 1
             });
         }
+    }
+
+    playSound() {
+        this.setState({
+            sound_status: Sound.status.PLAYING
+        })
+    }
+
+    turnOffSound() {
+        this.setState({
+            sound_status: Sound.status.STOPPED
+        })
     }
 
     changeTotalMins(n) {
@@ -161,6 +175,12 @@ class Clock extends React.Component {
                         </Col>
                     </Row>
                 </Col>
+                <Sound
+                    url="meow.mp3"
+                    playStatus={this.state.sound_status}
+                    volume={30}
+                    onFinishedPlaying={() => this.turnOffSound()}
+                />
             </Row>
         );
     }
