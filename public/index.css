@@ -88,6 +88,10 @@ body {
     font-size: 20px;
 }
 
+li {
+    list-style-type: none;
+}
+
 @-webkit-keyframes fade-out {
 100% {-webkit-transform: scale(2); opacity: 0;}
 }

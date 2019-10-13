@@ -7,7 +7,7 @@ class ClockName extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-            name: "Clock " + props.clock_id,
+            name: props.clock_id,
             edit: false
         };
         this.handleChange = this.handleChange.bind(this);
