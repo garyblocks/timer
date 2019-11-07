@@ -1,14 +1,22 @@
 import React from 'react';
+import { connect } from  "react-redux";
+import { updateName } from "../redux/actions";
+import { getClockById } from "../redux/selectors";
 
 import Col from 'react-bootstrap/Col'; 
+
+function mapStateToProps(state, ownProps) {
+    const { clock } = ownProps;
+    const new_clock = getClockById(clock.id)
+    return { new_clock }
+}
 
 class ClockName extends React.Component {
 
     constructor (props) {
         super(props);
         this.state = {
-            name: props.clock_id,
-            edit: false
+            edit: false,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
@@ -38,9 +46,9 @@ class ClockName extends React.Component {
     } 
 
     handleChange(event) {
-        this.setState({
-            name: event.target.value
-        });
+        const clock_id = this.props.clock.id;
+        const new_name = event.target.value;
+        this.props.updateName(clock_id, new_name);
     }
 
     render() {
@@ -53,15 +61,18 @@ class ClockName extends React.Component {
                     this.state.edit? <input
                         className="input_text input_name"
                         type="text"
-                        value={this.state.name}
+                        value={this.props.clock.name}
                         onChange={this.handleChange}
                     /> : <span 
                         onClick={() => this.enableEdit()}
-                    >{this.state.name}</span>
+                    >{this.props.clock.name}</span>
                 }
             </Col>
         );
     }
 }
 
-export default ClockName;
+export default connect(
+    mapStateToProps,
+    { updateName }
+)(ClockName);

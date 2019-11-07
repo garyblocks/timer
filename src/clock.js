@@ -1,73 +1,74 @@
 import React from 'react';
+import { connect } from "react-redux";
+import { updateTime, updateStat, toggleIcon, toggleFirst} from "./redux/actions";
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'; 
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Sound from 'react-sound';
 
-import ClockName from './clock-name';
-import CountDown from './count-down';
+import CountDown from './count-down'; 
+import ClockName from './components/ClockName';
+import RemoveClock from './components/RemoveClock';
 
 class Clock extends React.Component {
 
-    constructor (props) {
+    constructor(props) {
         super(props);
-        const total_secs = 60 * props.total_mins;
+        const total_secs = props.clock.secs;
         this.state = {
-            is_paused: false,
-            is_done: false,
-            restart: false,
-            total_mins: props.total_mins,
-            passed_secs: 0,
-            total_secs: total_secs,
+            total_secs: props.clock.secs,
             prev_time: Date.now(),
-            percentage: 0,
+            percentage: this.getPercentage(props.clock.time, total_secs),
             overlay_key: 0,
-            sound_status: Sound.status.STOPPED,
+            sound_status: Sound.status.STOPPED
         };
         this.init_state = this.state;
+        if (props.clock.first) {
+            this.props.toggleFirst(this.props.clock.id, false);
+        } else {
+            this.props.toggleIcon(this.props.clock.id, false);
+        }
+    }
+
+    getPercentage(passed_secs, total_secs) {
+        const percentage = Math.round(100 * passed_secs / total_secs);
+        return percentage;
     }
 
     tick() {
         var now = Date.now();
-        if (this.state.is_paused) {
+        if (this.props.clock.stat === 'PAUSE') {
             this.setState({
                 prev_time: now
             })
             return;
         }
-        var passed_secs = this.state.passed_secs + (now - this.state.prev_time) / 1000;
+        const elapsed_secs = (now - this.state.prev_time) / 1000;
+        var passed_secs = this.props.clock.time + elapsed_secs;
         const percentage = Math.round(100 * passed_secs / this.state.total_secs);
-        var is_paused = this.state.is_paused;
-        var is_done = this.state.is_done;
         if (this.state.percentage >= 100) {
             clearInterval(this.interval);
             passed_secs = 0;
-            is_paused = !is_paused;
-            is_done = !is_done;
+            this.props.updateStat(this.props.clock.id, 'STOP');
             this.playSound();
         }
+        this.props.updateTime(this.props.clock.id, passed_secs);
         this.setState({
-            passed_secs: passed_secs,
             percentage: percentage,
-            is_paused: is_paused,
-            is_done: is_done,
             prev_time: now,
         });
     }
 
     restart() {
         clearInterval(this.interval);
+        this.props.updateTime(this.props.clock.id, 0);
         this.setState(this.init_state);
+        this.props.updateStat(this.props.clock.id, 'RESTART');
         this.setState({
             prev_time: Date.now(),
-            restart: true
         })
         this.interval = setInterval(() => this.tick(), 1000);
-    }
-
-    remove() {
-        this.props.onRemove(this.props.clock_id);
     }
 
     componentDidMount() {
@@ -79,18 +80,31 @@ class Clock extends React.Component {
     }
 
     handleClick() {
-        if (this.state.is_done) {
-            this.restart();
-            this.setState({
-                overlay_key: this.state.overlay_key + 1,
-            });
-        } else {
-            this.setState({
-                restart: false,
-                is_paused: !this.state.is_paused,
-                overlay_key: this.state.overlay_key + 1
-            });
+        this.props.toggleIcon(this.props.clock.id, true);
+        switch (this.props.clock.stat) {
+            case 'STOP': {
+                this.restart();
+                break;
+            }
+            case 'PAUSE': {
+                this.props.updateStat(this.props.clock.id, 'RUN');
+                break;
+            }
+            case 'RUN': {
+                this.props.updateStat(this.props.clock.id, 'PAUSE');
+                break;
+            }
+            case 'RESTART': {
+                this.props.updateStat(this.props.clock.id, 'PAUSE');
+                break;
+            }
+            default:
+                break
         }
+
+        this.setState({
+            overlay_key: this.state.overlay_key + 1,
+        });
     }
 
     playSound() {
@@ -108,22 +122,21 @@ class Clock extends React.Component {
     changeTotalMins(n) {
         const total_secs = 60 * n;
         this.setState({
-            is_paused: false,
-            is_done: false,
-            total_mins: n,
-            passed_secs: 0,
             total_secs: total_secs,
             percentage: 0
         });
+        this.props.updateTime(this.props.clock.id, 0);
         this.init_state = this.state;
         this.restart();
     }
 
     renderOverlay() {
         let icon;
-        if (this.state.restart) {
+        if (!this.props.clock.icon) {
+            icon = <span className="overlay-text"></span>;
+        } else if (this.props.clock.stat === 'RESTART') {
             icon = <span className="glyphicon glyphicon-repeat overlay-text fade-out"></span>
-        } else if (this.state.is_paused) {
+        } else if (this.props.clock.stat === 'PAUSE') {
             icon = <span className="glyphicon glyphicon-pause overlay-text fade-out"></span>
         } else {
             icon = <span className="glyphicon glyphicon-play overlay-text fade-out"></span>
@@ -138,28 +151,36 @@ class Clock extends React.Component {
     }
 
     renderBarColor() {
-        if (this.state.is_done) {
+        if (this.props.clock.stat === 'STOP') {
             return "danger";
+        } else if (this.props.clock.stat === 'PAUSE') {
+            return "warning";
         } else {
-            return this.state.is_paused ? "warning" : "info";
+            return "info";
         }
     }
 
+    renderProgressBar() {
+        return (
+            <ProgressBar
+                striped
+                animated={this.props.clock.stat === 'PAUSE' ? false : true}
+                variant={this.renderBarColor()}
+                className="clock_progress_bar"
+                now={this.state.percentage}
+                onClick={() => this.handleClick()}
+            />
+        )
+    }
+
     render() {
-        const total_secs_left = this.state.total_secs - this.state.passed_secs;
+        const total_secs_left = this.state.total_secs - this.props.clock.time;
         return (
             <Row className="clock animated fadeIn">
-                <ClockName clock_id={this.props.clock_id}/>
+                <ClockName clock={this.props.clock} />
                 <Col xs={7}>
                     {this.renderOverlay()}
-                    <ProgressBar
-                        striped
-                        animated={!this.state.is_paused}
-                        variant={this.renderBarColor()}
-                        className="clock_progress_bar"
-                        now={this.state.percentage}
-                        onClick={() => this.handleClick()}
-                    />
+                    {this.renderProgressBar()}
                 </Col>
                 <Col className="clock_time">
                     <Row>
@@ -170,9 +191,7 @@ class Clock extends React.Component {
                         <Col onClick={() => this.restart()}>
                             <span className="glyphicon glyphicon-repeat option"></span>
                         </Col>
-                        <Col onClick={() => this.remove()}>
-                            <span className="glyphicon glyphicon-trash option"></span>
-                        </Col>
+                        <RemoveClock clock_id={this.props.clock.id} />
                     </Row>
                 </Col>
                 <Sound
@@ -186,4 +205,7 @@ class Clock extends React.Component {
     }
 }
 
-export default Clock;
+export default connect(
+    null,
+    { updateTime, updateStat, toggleIcon, toggleFirst }
+)(Clock);

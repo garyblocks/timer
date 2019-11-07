@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+import { addClock } from './redux/actions';
+
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'; 
 import Button from 'react-bootstrap/Button';
@@ -17,6 +20,10 @@ class CreateNew extends React.Component {
         this.setState({value: total_mins});
     }
 
+    handleAddClock = () => {
+        this.props.addClock(this.state.value * 60);
+    }
+
     render() {
         return (
             <Row>
@@ -25,7 +32,7 @@ class CreateNew extends React.Component {
                     <Row>
                     <Col xs={12} md={3} className="word align-self-center">
                         <Button className="create_btn text_center" 
-                            onClick={() => this.props.onClick(this.state.value)}
+                            onClick={this.handleAddClock}
                             variant="info"
                         >Create
                         </Button>
@@ -52,4 +59,7 @@ class CreateNew extends React.Component {
     }
 }
 
-export default CreateNew;
+export default connect(
+    null,
+    { addClock }
+)(CreateNew);
