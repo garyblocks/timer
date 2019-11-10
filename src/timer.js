@@ -2,9 +2,9 @@ import React from 'react';
 
 import Container from 'react-bootstrap/Container';
 
-import Label from './label';
-import CreateNew from './create-new';
-import ClockList from './clock-list';
+import Label from './components/Label';
+import CreateClock from './components/CreateClock';
+import ClockList from './components/ClockList';
 
 class Timer extends React.Component {
 
@@ -24,7 +24,7 @@ class Timer extends React.Component {
             <Container key={this.state.key} className="animated fadeIn">
                 <Label updateKey={this.updateKey} theme={this.state.key}/>
                 <ClockList />
-                <CreateNew />
+                <CreateClock />
             </Container>
         );
     }

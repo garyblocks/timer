@@ -40,6 +40,10 @@ body {
     color: tomato;
 }
 
+.counter:hover {
+    color: tomato;
+}
+
 .input_mins {
     width: 40px;
     text-align: center;

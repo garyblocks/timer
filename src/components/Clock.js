@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { updateTime, updateStat, toggleIcon, toggleFirst} from "./redux/actions";
+import { updateTime, updateStat, toggleIcon, toggleFirst} from "../redux/actions";
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'; 
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Sound from 'react-sound';
 
-import CountDown from './count-down'; 
-import ClockName from './components/ClockName';
-import RemoveClock from './components/RemoveClock';
+import CountDown from './CountDown'; 
+import ClockName from './ClockName';
+import RemoveClock from './RemoveClock';
 
 class Clock extends React.Component {
 
@@ -61,6 +61,7 @@ class Clock extends React.Component {
     }
 
     restart() {
+        this.props.toggleIcon(this.props.clock.id, true);
         clearInterval(this.interval);
         this.props.updateTime(this.props.clock.id, 0);
         this.setState(this.init_state);
@@ -119,17 +120,6 @@ class Clock extends React.Component {
         })
     }
 
-    changeTotalMins(n) {
-        const total_secs = 60 * n;
-        this.setState({
-            total_secs: total_secs,
-            percentage: 0
-        });
-        this.props.updateTime(this.props.clock.id, 0);
-        this.init_state = this.state;
-        this.restart();
-    }
-
     renderOverlay() {
         let icon;
         if (!this.props.clock.icon) {
@@ -186,7 +176,7 @@ class Clock extends React.Component {
                     <Row>
                         <CountDown
                             total_secs_left={total_secs_left}
-                            onChange={(n) => this.changeTotalMins(n)}
+                            total_secs={this.props.clock.time}
                         />
                         <Col onClick={() => this.restart()}>
                             <span className="glyphicon glyphicon-repeat option"></span>

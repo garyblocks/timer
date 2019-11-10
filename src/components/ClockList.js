@@ -3,9 +3,9 @@ import React from 'react';
 import { connect } from "react-redux";
 import { sortable } from 'react-sortable';
 
-import { getClocks } from "./redux/selectors";
-import { sortClocks, toggleIcon } from "./redux/actions";
-import Clock from './clock';
+import { getClocks } from "../redux/selectors";
+import { sortClocks, toggleIcon } from "../redux/actions";
+import Clock from './Clock';
 
 class Item extends React.Component {
     render() {

@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { addClock } from './redux/actions';
+import { addClock } from '../redux/actions';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'; 
 import Button from 'react-bootstrap/Button';
 
-class CreateNew extends React.Component {
+class CreateClock extends React.Component {
 
     constructor(props) {
         super(props);
@@ -62,4 +62,4 @@ class CreateNew extends React.Component {
 export default connect(
     null,
     { addClock }
-)(CreateNew);
+)(CreateClock);
