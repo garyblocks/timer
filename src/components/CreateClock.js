@@ -6,13 +6,18 @@ import { addClock } from '../redux/actions';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'; 
 import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 class CreateClock extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {value: 20};
+        this.state = {
+            value: 20,
+            unit: 'mins'
+        };
         this.handleChange = this.handleChange.bind(this);
+        this.changeUnit = this.changeUnit.bind(this);
     }
 
     handleChange(event) {
@@ -21,7 +26,25 @@ class CreateClock extends React.Component {
     }
 
     handleAddClock = () => {
-        this.props.addClock(this.state.value * 60);
+        const unit = this.state.unit;
+        switch (unit) {
+            case 'seconds':
+                this.props.addClock(this.state.value);
+                break;
+            case 'hours':
+                this.props.addClock(this.state.value * 3600);
+                break;
+            case 'days':
+                this.props.addClock(this.state.value * 86400);
+                break;
+            default:
+                this.props.addClock(this.state.value * 60);
+        }
+    }
+
+    changeUnit(event) {
+        const unit = event.target.innerText;
+        this.setState({unit:unit});
     }
 
     render() {
@@ -48,12 +71,37 @@ class CreateClock extends React.Component {
                             onChange={this.handleChange}
                         />
                     </Col>
-                    <Col xs={12} md={4} className="word align-self-center">
-                        <p className="create_text">mins timer</p>
+                    <Col xs={12} md={3} className="word align-self-center">
+                        <Dropdown className="text_center">
+                            <Dropdown.Toggle
+                                variant="info"
+                                id="dropdown-basic"
+                                className="create_btn"
+                            >{this.state.unit}
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item
+                                    onClick={this.changeUnit}
+                                >seconds</Dropdown.Item>
+                                <Dropdown.Item
+                                    onClick={this.changeUnit}
+                                >mins</Dropdown.Item>
+                                <Dropdown.Item
+                                    onClick={this.changeUnit}
+                                >hours</Dropdown.Item>
+                                <Dropdown.Item
+                                    onClick={this.changeUnit}
+                                >days</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Col>
+                    <Col xs={12} md={2} className="word align-self-center">
+                        <p className="create_text">timer</p>
                     </Col>
                     </Row>
                 </Col>
-                <Col xs={4} md={4}></Col>
+                <Col xs={4} md={3}></Col>
             </Row>
         );
     }

@@ -167,7 +167,7 @@ class Clock extends React.Component {
         const total_secs_left = this.state.total_secs - this.props.clock.time;
         return (
             <Row className="clock animated fadeIn">
-                <ClockName clock={this.props.clock} />
+                <ClockName clock={this.props.clock} xs={2}/>
                 <Col xs={7}>
                     {this.renderOverlay()}
                     {this.renderProgressBar()}
