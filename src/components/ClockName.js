@@ -5,6 +5,8 @@ import { getClockById } from "../redux/selectors";
 
 import Col from 'react-bootstrap/Col'; 
 
+import AutosizeInput from 'react-input-autosize';
+
 function mapStateToProps(state, ownProps) {
     const { clock } = ownProps;
     const new_clock = getClockById(clock.id)
@@ -58,7 +60,7 @@ class ClockName extends React.Component {
                 ref={node => this.node = node}
             >
                 {
-                    this.state.edit? <input
+                    this.state.edit? <AutosizeInput
                         className="input_text input_name"
                         type="text"
                         value={this.props.clock.name}

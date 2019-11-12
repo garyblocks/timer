@@ -8,6 +8,7 @@
     "react-bootstrap": "^1.0.0-beta.10",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
+    "react-input-autosize": "^2.2.2",
     "react-redux": "^7.1.1",
     "react-scripts": "3.0.1",
     "react-sortable": "^2.0.0",

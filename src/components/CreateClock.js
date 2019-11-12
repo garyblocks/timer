@@ -8,6 +8,8 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 
+import AutosizeInput from 'react-input-autosize';
+
 class CreateClock extends React.Component {
 
     constructor(props) {
@@ -63,8 +65,8 @@ class CreateClock extends React.Component {
                     <Col xs={12} md={1} className="word align-self-center">
                         <p className="create_text">a</p>
                     </Col>
-                    <Col xs={12} md={2} className="word align-self-center">
-                        <input
+                    <Col xs={12} md={2} className="word align-self-flex-start">
+                        <AutosizeInput
                             className="input_text input_mins"
                             type="number"
                             value={this.state.value}
