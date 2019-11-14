@@ -66,6 +66,10 @@ class ClockName extends React.Component {
                         value={this.props.clock.name}
                         onChange={this.handleChange}
                         maxLength="15"
+                        draggable="true"
+                        onDragStart={e => {
+                            e.preventDefault();
+                        }} 
                     /> : <span 
                         onClick={() => this.enableEdit()}
                     >{this.props.clock.name}</span>
