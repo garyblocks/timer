@@ -65,6 +65,7 @@ class ClockName extends React.Component {
                         type="text"
                         value={this.props.clock.name}
                         onChange={this.handleChange}
+                        maxLength="15"
                     /> : <span 
                         onClick={() => this.enableEdit()}
                     >{this.props.clock.name}</span>

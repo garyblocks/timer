@@ -177,6 +177,7 @@ class Clock extends React.Component {
                         <CountDown
                             total_secs_left={total_secs_left}
                             total_secs={this.props.clock.time}
+                            clock={this.props.clock}
                         />
                         <Col onClick={() => this.restart()}>
                             <span className="glyphicon glyphicon-repeat option"></span>

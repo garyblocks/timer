@@ -8,3 +8,4 @@ export const UPDATE_TIME = "UPDATE_TIME";
 export const UPDATE_STAT = "UPDATE_STAT";
 export const TOGGLE_ICON = "TOGGLE_ICON";
 export const TOGGLE_FIRST = "TOGGLE_FIRST";
+export const TOGGLE_COUNT = "TOGGLE_COUNT";

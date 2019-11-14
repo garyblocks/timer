@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from "react-redux";
+import { toggleCount } from "../redux/actions";
 
 import Col from 'react-bootstrap/Col'; 
 
@@ -6,16 +8,11 @@ class CountDown extends React.Component {
 
     constructor (props) {
         super(props);
-        this.state = {
-            count_down: true
-        }
         this.handleClick = this.handleClick.bind(this);
     }
 
     handleClick() {
-        this.setState({
-            count_down: !this.state.count_down
-        });
+        this.props.toggleCount(this.props.clock.id);
     } 
 
     getTimeStrings(total_secs) {
@@ -63,10 +60,13 @@ class CountDown extends React.Component {
     render() {
         return (
             <Col className="counter">
-                {this.state.count_down ? this.renderCountDown() : this.renderCountUp()}
+                {this.props.clock.count_down ? this.renderCountDown() : this.renderCountUp()}
             </Col>
         )
     }
 }
 
-export default CountDown;
+export default connect(
+    null,
+    { toggleCount }
+)(CountDown);

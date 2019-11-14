@@ -9,10 +9,20 @@ body {
     margin: 20px;
 }
 
+.timer_label:hover {
+    color: tomato;
+    cursor: pointer;
+}
+
 .clock_label {
     font-size: 20px;
     height: 30px;
     text-align: center;
+}
+
+.clock_label:hover {
+    color: tomato;
+    cursor: pointer;
 }
 
 .clock_progress_bar {
@@ -38,10 +48,12 @@ body {
 
 .option:hover {
     color: tomato;
+    cursor: pointer;
 }
 
 .counter:hover {
     color: tomato;
+    cursor: pointer;
 }
 
 .input_mins {
@@ -74,6 +86,10 @@ body {
 
 .input_text {
     color: black;
+}
+
+.dropdown-option {
+    font-size: 18px;
 }
 
 .overlay {

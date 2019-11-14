@@ -1,6 +1,6 @@
 import { 
     ADD_CLOCK, REMOVE_CLOCK, SORT_CLOCKS, UPDATE_NAME, UPDATE_TIME, UPDATE_STAT,
-    TOGGLE_ICON, TOGGLE_FIRST
+    TOGGLE_ICON, TOGGLE_FIRST, TOGGLE_COUNT
 } from "../actionTypes";
 
 const initialState = {
@@ -23,7 +23,8 @@ export default function(state = initialState, action) {
                         time: 0,
                         stat: "RUN",
                         icon: true,
-                        first: true
+                        first: true,
+                        count_down: true
                     }
                 }
             };
@@ -103,6 +104,19 @@ export default function(state = initialState, action) {
                     [id]: { 
                         ...state.byIds[id],
                         first: value
+                    }
+                }
+            };
+        }
+        case TOGGLE_COUNT: {
+            const { id } = action.payload;
+            return {
+                ...state,
+                byIds: {
+                    ...state.byIds,
+                    [id]: { 
+                        ...state.byIds[id],
+                        count_down: !state.byIds[id].count_down
                     }
                 }
             };

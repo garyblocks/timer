@@ -1,6 +1,6 @@
 import {
     ADD_CLOCK, REMOVE_CLOCK, SORT_CLOCKS, UPDATE_NAME, UPDATE_TIME, UPDATE_STAT,
-    TOGGLE_ICON, TOGGLE_FIRST
+    TOGGLE_ICON, TOGGLE_FIRST, TOGGLE_COUNT
 } from "./actionTypes";
 
 let nextClockId = 0;
@@ -61,4 +61,9 @@ export const toggleFirst = (id, value) => ({
         id: id,
         value: value
     }
+})
+
+export const toggleCount = (id, value) => ({
+    type: TOGGLE_COUNT,
+    payload: { id }
 })

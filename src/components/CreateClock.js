@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'; 
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Alert from 'react-bootstrap/Alert';
 
 import AutosizeInput from 'react-input-autosize';
 
@@ -16,18 +17,29 @@ class CreateClock extends React.Component {
         super(props);
         this.state = {
             value: 20,
-            unit: 'mins'
+            unit: 'mins',
+            warn: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.changeUnit = this.changeUnit.bind(this);
     }
 
     handleChange(event) {
-        const total_mins = event.target.value;
-        this.setState({value: total_mins});
+        if (event.target.value <= 9999) {
+            const total_mins = event.target.value;
+            this.setState({value: total_mins});
+        }
+    }
+
+    handleToggleWarn() {
+        this.setState({warn: false});
     }
 
     handleAddClock = () => {
+        if (this.state.value <= 0) {
+            this.setState({ warn: true });
+            return;
+        }
         const unit = this.state.unit;
         switch (unit) {
             case 'seconds':
@@ -49,8 +61,25 @@ class CreateClock extends React.Component {
         this.setState({unit:unit});
     }
 
+    renderAlert() {
+        if (!this.state.warn) {
+            return;
+        }
+        return (
+            <Alert
+                variant="danger"
+                className="align-self-center"
+                onClick={() => this.handleToggleWarn()}
+            >
+                Invalid Number
+            </Alert>
+        )
+    }
+
     render() {
         return (
+            <>
+            <Row><Col>{this.renderAlert()}</Col></Row>
             <Row>
                 <Col xs={4} md={4}></Col>
                 <Col>
@@ -71,6 +100,7 @@ class CreateClock extends React.Component {
                             type="number"
                             value={this.state.value}
                             onChange={this.handleChange}
+                            maxLength="4"
                         />
                     </Col>
                     <Col xs={12} md={3} className="word align-self-center">
@@ -84,15 +114,19 @@ class CreateClock extends React.Component {
 
                             <Dropdown.Menu>
                                 <Dropdown.Item
+                                    className="dropdown-option"
                                     onClick={this.changeUnit}
                                 >seconds</Dropdown.Item>
                                 <Dropdown.Item
+                                    className="dropdown-option"
                                     onClick={this.changeUnit}
                                 >mins</Dropdown.Item>
                                 <Dropdown.Item
+                                    className="dropdown-option"
                                     onClick={this.changeUnit}
                                 >hours</Dropdown.Item>
                                 <Dropdown.Item
+                                    className="dropdown-option"
                                     onClick={this.changeUnit}
                                 >days</Dropdown.Item>
                             </Dropdown.Menu>
@@ -105,6 +139,7 @@ class CreateClock extends React.Component {
                 </Col>
                 <Col xs={4} md={3}></Col>
             </Row>
+            </>
         );
     }
 }
