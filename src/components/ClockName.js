@@ -32,7 +32,7 @@ class ClockName extends React.Component {
         document.removeEventListener('mousedown', this.handleClick, false);
     }
 
-    enableEdit() {
+    enableEdit(event) {
         this.setState({
             edit: true
         });
@@ -42,6 +42,12 @@ class ClockName extends React.Component {
         if (this.node.contains(event.target)) {
             return;
         }
+        // make sure the input field is not left empty
+        const current_name = this.props.clock.name;
+        if (!current_name) {
+            const clock_id = this.props.clock.id;
+            this.props.updateName(clock_id, 'undefined');
+        }
         this.setState({
             edit: false
         });
@@ -49,8 +55,8 @@ class ClockName extends React.Component {
 
     handleChange(event) {
         const clock_id = this.props.clock.id;
-        const new_name = event.target.value;
-        this.props.updateName(clock_id, new_name);
+        const input_value = event.target.value;
+        this.props.updateName(clock_id, input_value);
     }
 
     render() {
@@ -67,6 +73,7 @@ class ClockName extends React.Component {
                         onChange={this.handleChange}
                         maxLength="15"
                         draggable="true"
+                        onFocus={e => {e.target.select()}}
                         onDragStart={e => {
                             e.preventDefault();
                         }} 
