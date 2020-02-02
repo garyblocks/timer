@@ -43,6 +43,7 @@ class ClockList extends React.Component {
                 return <Clock
                         key={setting.id}
                         clock={setting}
+                        mute={this.props.mute}
                 />
             })
         }

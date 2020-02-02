@@ -185,12 +185,14 @@ class Clock extends React.Component {
                         <RemoveClock clock_id={this.props.clock.id} />
                     </Row>
                 </Col>
+                {this.props.mute?
+                <></>:
                 <Sound
                     url="meow.mp3"
                     playStatus={this.state.sound_status}
                     volume={30}
                     onFinishedPlaying={() => this.turnOffSound()}
-                />
+                />}
             </Row>
         );
     }

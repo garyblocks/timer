@@ -1,6 +1,14 @@
-body {
+html, body {
   font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 20px;
+  height: 100%;
+}
+
+#root {
+    height: 100%;
+}
+
+.container {
+    min-height: 100%;
 }
 
 .timer_label {
@@ -106,6 +114,13 @@ body {
     top: 15%;
     left: 50%;
     font-size: 20px;
+}
+
+.footer {
+    font-size: 30px;
+    text-align: right;
+    margin-top: -80px;
+    padding-right: 80px;
 }
 
 li {
